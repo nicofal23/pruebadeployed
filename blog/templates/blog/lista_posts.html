@@ -1,0 +1,51 @@
+{% extends 'base_generic.html' %}
+{% load form_tags %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Publicaciones de Mascotas Perdidas</h1>
+
+    <form method="get" class="form-inline mb-4 justify-content-center">
+        <div class="form-group mr-2">
+            <label for="categoria" class="mr-2">Categoría</label>
+            {{ form.categoria|add_class:"form-control" }}
+        </div>
+        <div class="form-group mr-2">
+            <label for="color" class="mr-2">Color</label>
+            {{ form.color|add_class:"form-control" }}
+        </div>
+        <div class="form-group mr-2">
+            <label for="zona" class="mr-2">Zona</label>
+            {{ form.zona|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+
+    {% if posts %}
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if post.imagenes.first %}
+                    <img src="{{ post.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ post.titulo }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">{{ post.titulo }}</h5>
+                        <p class="card-text text-muted">{{ post.subtitulo }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <small class="text-muted">Publicado por: <strong>{{ post.autor }}</strong></small>
+                        {% if post.autor.perfil.telefono %}
+                        <br>
+                        <small class="text-muted">Teléfono: {{ post.autor.perfil.telefono }}</small>
+                        {% endif %}
+                        <a href="{% url 'detalle_post' post.id %}" class="btn btn-outline-primary btn-block mt-3">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No hay publicaciones disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}

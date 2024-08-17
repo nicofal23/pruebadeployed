@@ -1,0 +1,89 @@
+{% extends 'base_generic.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4">Crear una nueva publicación</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.titulo.label_tag }}
+                {{ form.titulo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.subtitulo.label_tag }}
+                {{ form.subtitulo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.cuerpo.label_tag }}
+                {{ form.cuerpo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.categoria.label_tag }}
+                {{ form.categoria|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.color.label_tag }}
+                {{ form.color|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.zona.label_tag }}
+                {{ form.zona|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                <label for="imagenes">Subir imágenes</label>
+                <input type="file" name="imagenes" multiple class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Publicar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+        padding: 20px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background-color: #f8f9fa;
+    }
+
+    .card h2 {
+        color: #343a40;
+        font-size: 1.75rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .form-control-file {
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-size: 1.25rem;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

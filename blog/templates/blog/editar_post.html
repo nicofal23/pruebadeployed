@@ -1,0 +1,108 @@
+{% extends 'base_generic.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4 text-primary">Editar Publicación</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.titulo.label_tag }}
+                {{ form.titulo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.subtitulo.label_tag }}
+                {{ form.subtitulo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.cuerpo.label_tag }}
+                {{ form.cuerpo|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.categoria.label_tag }}
+                {{ form.categoria|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.color.label_tag }}
+                {{ form.color|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.zona.label_tag }}
+                {{ form.zona|add_class:"form-control" }}
+            </div>
+            
+            <div class="row">
+                {% for imagen in imagenes %}
+                    <div class="col-md-3 mb-2">
+                        <img src="{{ imagen.imagen.url }}" alt="{{ post.titulo }}" class="img-thumbnail">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="imagenes" class="font-weight-bold">Subir nuevas imágenes</label>
+                <input type="file" name="imagenes" multiple class="form-control-file mt-2">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block mt-4">Guardar cambios</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border-radius: 15px;
+        border: none;
+        padding: 25px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+        background-color: #ffffff;
+    }
+
+    .card h2 {
+        color: #007bff;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .form-control-file {
+        margin-top: 12px;
+    }
+
+    .btn-primary {
+        background-color: #28a745;
+        border-color: #28a745;
+        font-size: 1.25rem;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+
+    .img-thumbnail {
+        border-radius: 8px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .img-thumbnail:hover {
+        transform: scale(1.07);
+    }
+</style>
+{% endblock %}

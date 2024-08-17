@@ -1,0 +1,13 @@
+
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>¿Estás seguro de que deseas borrar la publicación "{{ post.titulo }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Borrar</button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Perfil de {{ perfil.user.username }}</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Información del Perfil</h5>
+            <p><strong>Nombre de usuario:</strong> {{ perfil.user.username }}</p>
+            <p><strong>Email:</strong> {{ perfil.user.email }}</p>
+            <p><strong>Descripción:</strong> {{ perfil.descripcion }}</p>
+            <p><strong>Teléfono:</strong> {{ perfil.telefono }}</p>
+        </div>
+    </div>
+
+    <!-- Sección de Publicaciones del Usuario -->
+    <h3 class="mb-4">Publicaciones de {{ perfil.user.username }}</h3>
+    {% if publicaciones %}
+        <div class="row">
+            {% for post in publicaciones %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if post.imagenes.first %}
+                    <img src="{{ post.imagenes.first.imagen.url }}" class="card-img-top" alt="{{ post.titulo }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.titulo }}</h5>
+                        <p class="card-text">{{ post.cuerpo|truncatewords:20 }}</p> <!-- Limitando el texto a 20 palabras -->
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'detalle_post' post.id %}" class="btn btn-primary btn-block">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>{{ perfil.user.username }} no ha hecho publicaciones aún.</p>
+    {% endif %}
+</div>
+{% endblock %}

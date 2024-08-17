@@ -1,0 +1,208 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">{{ post.titulo }}</h2>
+            <p class="card-text">{{ post.cuerpo }}</p>
+        </div>
+
+        <!-- Carousel -->
+        <div id="carouselImages" class="carousel slide w-75 mx-auto mb-4" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for imagen in imagenes %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="image-container">
+                        <img src="{{ imagen.imagen.url }}" class="d-block w-100" alt="{{ post.titulo }}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <!-- Modal for image preview -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">{{ post.titulo }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="modalImage" src="" class="img-fluid" alt="{{ post.titulo }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <p><strong>Publicado por:</strong>
+                {% if user == post.autor %}
+                    <a href="{% url 'editar_post' post.id %}" class="text-primary">{{ post.autor.username|capfirst }}</a>
+                {% else %}
+                    <a href="{% url 'ver_perfil' post.autor.id %}" class="text-primary">{{ post.autor.username|capfirst }}</a>
+                {% endif %}
+            </p>
+
+            {% if autor_perfil.telefono %}
+            <a href="https://wa.me/{{ autor_perfil.telefono }}" class="btn btn-success mt-3" target="_blank">
+                Contactar por WhatsApp
+            </a>
+            {% else %}
+            <p>Este usuario no ha proporcionado un número de teléfono.</p>
+            {% endif %}
+
+            <!-- Mostrar botones de editar y borrar solo si es el autor -->
+            {% if user == post.autor %}
+            <div class="mt-4" style="display: flex; gap: 20px;">
+                <a href="{% url 'editar_post' post.id %}" class="btn btn-warning">Editar Publicación</a>
+                <form method="post" action="{% url 'borrar_post' post.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Borrar Publicación</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    
+    .image-container {
+        width: 100%;
+        height: 400px; 
+        overflow: hidden;
+        border-radius: 5px; 
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); 
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        
+    }
+
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 5%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-warning {
+        color: white;
+        background-color: #ffbb33;
+        border-color: #ffbb33;
+    }
+
+    .btn-warning:hover {
+        background-color: #ffa500;
+        border-color: #ffa500;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .shadow-sm {
+        display: flex;
+    z-index: -2 !important;
+    }
+    .btn {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-warning {
+    color: white;
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+    box-shadow: 0 4px 6px rgba(240, 173, 78, 0.5);
+}
+
+.btn-warning:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+    box-shadow: 0 6px 8px rgba(240, 173, 78, 0.7);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    color: white;
+    background-color: #d9534f;
+    border-color: #d9534f;
+    box-shadow: 0 4px 6px rgba(217, 83, 79, 0.5);
+}
+
+.btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+    box-shadow: 0 6px 8px rgba(217, 83, 79, 0.7);
+    transform: translateY(-2px);
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(240, 173, 78, 0.25);
+}
+
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var carouselItems = document.querySelectorAll('.carousel-item img');
+        var modalImage = document.getElementById('modalImage');
+        var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+
+        carouselItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                modalImage.src = this.src;
+                imageModal.show();
+            });
+        });
+    });
+</script>
+{% endblock %}

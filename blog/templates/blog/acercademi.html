@@ -1,0 +1,32 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block title %}Acerca de mí{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4 shadow-lg">
+                <h2 class="text-center mb-4 text-primary">Acerca de mí</h2>
+                <!-- Imagen centrada arriba -->
+                <div class="text-center mb-4">
+                    <img src="{% static 'assets/img/altair.jpeg' %}" alt="Foto de Nicolás Falciglio y Altair" class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                </div>
+                <!-- Texto abajo -->
+                <div>
+                    <p>¡Hola! Soy Nicolás Falciglio, un amante de los animales y desarrollador frontend. Junto a mi fiel compañero Altair, hemos decidido crear algo que realmente marque la diferencia para quienes, como nosotros, aman a sus mascotas.</p>
+                    <p>La idea de esta página surgió al darme cuenta de que, cuando una mascota se extravía, muchos suben publicaciones a redes sociales, pero estas historias desaparecen después de un día. Si alguien encuentra a la mascota tiempo después, esas publicaciones ya no están disponibles. Esto dificulta el reencuentro, y muchas veces la mascota sigue perdida.</p>
+                    <p>Por eso creé este sitio, donde las publicaciones sobre mascotas perdidas permanecen activas hasta que el propietario o un administrador las borren. Así, siempre habrá un registro disponible que podrá ayudar a reunir a las mascotas con sus familias, sin importar cuánto tiempo haya pasado.</p>
+                    <p>Mi objetivo es seguir mejorando esta plataforma para que cada vez más personas puedan beneficiarse de ella. Agradezco tu apoyo y participación en esta comunidad.</p>
+                </div>
+                <p class="text-center mt-4"><strong>- Nicolás y Altair</strong></p>
+                <div class="text-center mt-4">
+                    <a href="https://www.instagram.com/nicolasfalciglio" target="_blank" class="mr-3"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a href="https://www.facebook.com/nicolasfalciglio" target="_blank" class="mr-3"><i class="fab fa-facebook-f fa-2x"></i></a>
+                    <a href="https://wa.me/5493416488215" target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
